@@ -1,0 +1,839 @@
+<!doctype html>
+<html lang="es">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#0b0b0a">
+  <meta name="description" content="AUREM Patrimonio Inmobiliario acompaña a inversores privados con una gestión inmobiliaria personalizada e integral, de principio a fin.">
+  <title>AUREM | Patrimonio Inmobiliario</title>
+  <script>document.documentElement.classList.add("js");</script>
+  <style>
+    :root {
+      color-scheme: dark;
+      --bg: #0b0b0a;
+      --panel: #141412;
+      --panel-soft: #1c1b18;
+      --text: #f5f2eb;
+      --muted: #b9b5aa;
+      --gold: #ffb81f;
+      --gold-soft: rgba(255, 184, 31, .13);
+      --line: rgba(245, 242, 235, .13);
+      --max: 1180px;
+      --radius: 18px;
+    }
+    * { box-sizing: border-box; }
+    html { scroll-behavior: smooth; }
+    body {
+      margin: 0;
+      background: var(--bg);
+      color: var(--text);
+      font-family: "Avenir Next", Avenir, Inter, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+      line-height: 1.6;
+    }
+    a { color: inherit; }
+    button, input, select, textarea { font: inherit; }
+    .wrap { width: min(var(--max), calc(100% - 48px)); margin-inline: auto; }
+    .eyebrow {
+      margin: 0 0 14px;
+      color: var(--gold);
+      font-size: .76rem;
+      font-weight: 700;
+      letter-spacing: .17em;
+      text-transform: uppercase;
+    }
+    h1, h2, h3, p { margin-top: 0; }
+    h1, h2, h3 { line-height: 1.12; letter-spacing: -.035em; }
+    h1 { max-width: 790px; margin-bottom: 22px; font-size: clamp(2.8rem, 6.8vw, 5.7rem); font-weight: 550; }
+    h2 { margin-bottom: 18px; font-size: clamp(2rem, 4vw, 3.4rem); font-weight: 550; }
+    h3 { margin-bottom: 12px; font-size: 1.25rem; font-weight: 600; }
+    p { color: var(--muted); }
+    :focus-visible { outline: 2px solid var(--gold); outline-offset: 4px; }
+    .lead { max-width: 650px; font-size: clamp(1.05rem, 1.5vw, 1.25rem); }
+    .gold { color: var(--gold); }
+    .section { padding: 112px 0; border-top: 1px solid var(--line); }
+    .section-head { max-width: 750px; margin-bottom: 46px; }
+    .section-head p { max-width: 670px; margin-bottom: 0; }
+    .topbar {
+      position: sticky;
+      z-index: 10;
+      top: 0;
+      border-bottom: 1px solid rgba(255,255,255,.08);
+      background: rgba(11,11,10,.88);
+      backdrop-filter: blur(18px);
+      transition: background .3s, box-shadow .3s, border-color .3s;
+    }
+    .topbar.is-scrolled { background: rgba(11,11,10,.96); border-color: rgba(255,184,31,.14); box-shadow: 0 10px 35px rgba(0,0,0,.24); }
+    .scroll-progress { position: fixed; z-index: 20; top: 0; left: 0; width: 100%; height: 2px; background: linear-gradient(90deg,var(--gold),#ffe09a); transform: scaleX(var(--scroll-progress,0)); transform-origin: left; pointer-events: none; }
+    .nav {
+      min-height: 82px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 22px;
+    }
+    .brand { width: 222px; height: 62px; display: block; overflow: hidden; flex: 0 0 auto; }
+    .brand img { width: 100%; height: 100%; object-fit: cover; object-position: center; display: block; }
+    .navlinks { display: flex; align-items: center; gap: 25px; }
+    .navlinks a { position: relative; text-decoration: none; color: #ddd8cd; font-size: .9rem; transition: color .2s; }
+    .navlinks a::after { content: ""; position: absolute; left: 0; right: 0; bottom: -7px; height: 1px; background: var(--gold); transform: scaleX(0); transform-origin: left; transition: transform .25s ease; }
+    .navlinks a:hover, .navlinks a:focus-visible { color: var(--gold); }
+    .navlinks a:hover::after, .navlinks a:focus-visible::after { transform: scaleX(1); }
+    .nav-actions { display: flex; align-items: center; gap: 15px; }
+    .languages { display: flex; gap: 3px; padding: 4px; border: 1px solid var(--line); border-radius: 99px; }
+    .languages button { border: 0; border-radius: 99px; padding: 4px 7px; background: transparent; color: var(--muted); cursor: pointer; font-size: .72rem; transition: color .2s, background .2s, transform .2s; }
+    .languages button:hover { transform: translateY(-1px); color: var(--text); }
+    .languages button.active { color: var(--bg); background: var(--gold); font-weight: 750; }
+    .button {
+      display: inline-flex; align-items: center; justify-content: center; gap: 10px;
+      min-height: 49px; padding: 12px 19px; border: 1px solid var(--gold);
+      border-radius: 5px; background: var(--gold); color: #15120a;
+      position: relative; overflow: hidden; box-shadow: 0 6px 20px rgba(255,184,31,.12);
+      text-decoration: none; font-size: .9rem; font-weight: 750; transition: transform .25s, background .25s, box-shadow .25s, border-color .25s;
+    }
+    .button::before { content: ""; position: absolute; inset: -20% auto -20% -40%; width: 28%; transform: skewX(-20deg); background: linear-gradient(90deg,transparent,rgba(255,255,255,.42),transparent); transition: left .55s ease; }
+    .button::after { content: "↗"; margin-left: 2px; transition: transform .25s; }
+    .button:hover { transform: translateY(-3px); background: #ffd06b; box-shadow: 0 12px 28px rgba(255,184,31,.2); }
+    .button:hover::before { left: 120%; }
+    .button:hover::after { transform: translate(2px,-2px); }
+    .button.secondary { background: transparent; color: var(--text); border-color: rgba(255,255,255,.28); }
+    .button.secondary:hover { border-color: var(--gold); color: var(--gold); background: var(--gold-soft); box-shadow: 0 10px 30px rgba(255,184,31,.08); }
+    .button.secondary::before { background: linear-gradient(90deg,transparent,rgba(255,184,31,.18),transparent); }
+    .menu-toggle { display: none; border: 1px solid var(--line); background: transparent; color: var(--text); border-radius: 5px; padding: 7px 10px; }
+    .hero { position: relative; overflow: hidden; padding: 115px 0 104px; }
+    .hero::before {
+      content: ""; position: absolute; width: 620px; height: 620px; right: -180px; top: 0;
+      border: 1px solid rgba(255,184,31,.14); border-radius: 50%;
+      box-shadow: 0 0 0 65px rgba(255,184,31,.025), 0 0 0 130px rgba(255,184,31,.018);
+      pointer-events: none; animation: haloBreathe 11s ease-in-out infinite alternate;
+    }
+    .hero-grid { display: grid; grid-template-columns: minmax(0, 1.25fr) minmax(280px, .75fr); align-items: center; gap: 54px; position: relative; }
+    .hero-copy { position: relative; z-index: 1; }
+    .hero-copy > * { animation: riseIn .75s cubic-bezier(.2,.7,.2,1) both; }
+    .hero-copy > :nth-child(1) { animation-delay: .06s; }
+    .hero-copy > :nth-child(2) { animation-delay: .16s; }
+    .hero-copy > :nth-child(3) { animation-delay: .27s; }
+    .hero-copy > :nth-child(4) { animation-delay: .38s; }
+    .hero-copy > :nth-child(5) { animation-delay: .48s; }
+    .hero-copy h1 { max-width: 750px; }
+    .hero-copy h1 span { color: var(--gold); }
+    .hero-copy .lead { margin-bottom: 30px; }
+    .hero-buttons { display: flex; flex-wrap: wrap; gap: 12px; }
+    .hero-art {
+      position: relative; min-height: 385px; border: 1px solid rgba(255,184,31,.25);
+      border-radius: 4px 90px 4px 4px; overflow: hidden;
+      background:
+        linear-gradient(135deg, transparent 42%, rgba(255,184,31,.11) 42.2%, transparent 42.6%),
+        linear-gradient(35deg, transparent 55%, rgba(255,184,31,.15) 55.2%, transparent 55.6%),
+        radial-gradient(ellipse at 76% 26%, rgba(255,184,31,.19), transparent 40%),
+        linear-gradient(145deg, #27251f, #11110f 65%);
+      animation: artReveal .9s .2s cubic-bezier(.2,.7,.2,1) both;
+      transition: border-color .35s, box-shadow .35s;
+    }
+    .hero-art:hover { border-color: rgba(255,184,31,.6); box-shadow: 0 24px 70px rgba(0,0,0,.38), 0 0 34px rgba(255,184,31,.08); }
+    .hero-art::before, .hero-art::after { content: ""; position: absolute; bottom: -2px; border: 1px solid rgba(255,184,31,.5); }
+    .hero-art::before { right: 12%; width: 54%; height: 78%; clip-path: polygon(50% 0,100% 24%,100% 100%,0 100%,0 24%); background: linear-gradient(90deg,rgba(255,184,31,.1),transparent); animation: buildingGlow 7s ease-in-out infinite alternate; }
+    .hero-art::after { right: 24%; width: 41%; height: 55%; clip-path: polygon(50% 0,100% 24%,100% 100%,0 100%,0 24%); background: linear-gradient(90deg,rgba(255,184,31,.08),transparent); animation: buildingGlow 8s 1s ease-in-out infinite alternate-reverse; }
+    .art-lines { position: absolute; z-index: 1; inset: 56% 0 0; background: repeating-linear-gradient(0deg, transparent 0 39px, rgba(255,184,31,.25) 40px 41px), repeating-linear-gradient(90deg, transparent 0 58px, rgba(255,184,31,.16) 59px 60px); opacity: .55; animation: gridDrift 22s linear infinite; }
+    .hero-caption { position: absolute; z-index: 2; left: 24px; bottom: 22px; padding-left: 13px; border-left: 2px solid var(--gold); color: var(--text); font-size: .83rem; }
+    .hero-meta { display: flex; gap: 22px; margin-top: 40px; color: var(--muted); font-size: .82rem; }
+    .hero-meta span::before { content: "✳"; color: var(--gold); margin-right: 8px; }
+    .grid-3 { display: grid; grid-template-columns: repeat(3, 1fr); gap: 16px; }
+    .grid-2 { display: grid; grid-template-columns: repeat(2, 1fr); gap: 18px; }
+    .card {
+      position: relative; padding: 27px; border: 1px solid var(--line); border-radius: var(--radius);
+      background: linear-gradient(145deg, rgba(255,255,255,.035), rgba(255,255,255,.012));
+      transform: translateY(0); transition: transform .32s cubic-bezier(.2,.7,.2,1), border-color .32s, box-shadow .32s, background .32s;
+    }
+    .card::before { content: ""; position: absolute; z-index: 1; top: 0; left: 24px; width: 38px; height: 1px; background: var(--gold); opacity: .45; transition: width .35s, opacity .35s; }
+    .card:hover { transform: translateY(-6px); border-color: rgba(255,184,31,.48); box-shadow: 0 18px 46px rgba(0,0,0,.3), 0 0 28px rgba(255,184,31,.045); }
+    .card:hover::before { width: calc(100% - 48px); opacity: .95; }
+    .card .number { display: block; margin-bottom: 27px; color: var(--gold); font-size: .76rem; letter-spacing: .12em; }
+    .card p:last-child { margin-bottom: 0; }
+    .intro-band { padding: 0 0 88px; }
+    .intro-band-inner { display: flex; align-items: center; justify-content: space-between; gap: 32px; padding: 30px 0; border-top: 1px solid var(--line); border-bottom: 1px solid var(--line); }
+    .intro-band strong { max-width: 650px; font-size: clamp(1.35rem,2.5vw,2rem); font-weight: 500; line-height: 1.3; }
+    .intro-band span { color: var(--gold); font-size: .8rem; letter-spacing: .14em; text-transform: uppercase; white-space: nowrap; }
+    .strategy-card { min-height: 250px; overflow: hidden; }
+    .strategy-card::after { content: ""; position: absolute; right: -35px; bottom: -62px; width: 180px; height: 180px; border: 1px solid rgba(255,184,31,.27); border-radius: 50%; box-shadow: 0 0 0 22px rgba(255,184,31,.035), 0 0 0 44px rgba(255,184,31,.025); }
+    .strategy-card h3 { max-width: 250px; font-size: 1.5rem; }
+    .strategy-card p { max-width: 360px; }
+    .npl-feature { background: radial-gradient(ellipse at 90% 12%, rgba(255,184,31,.09), transparent 42%); }
+    .npl-step { border-color: rgba(255,184,31,.28); }
+    .npl-proof { display: grid; grid-template-columns: repeat(3,1fr); gap: 1px; margin: 24px 0 30px; border: 1px solid rgba(255,184,31,.32); background: rgba(255,184,31,.25); }
+    .npl-proof div { padding: 20px 22px; background: #11110f; }
+    .npl-proof div { transition: background .28s, transform .28s; }
+    .npl-proof div:hover { position: relative; z-index: 1; transform: translateY(-3px); background: #191711; }
+    .npl-proof strong { display: block; margin-bottom: 5px; color: var(--gold); font-size: clamp(1.2rem,2vw,1.75rem); line-height: 1.2; }
+    .npl-proof span { color: var(--muted); font-size: .82rem; }
+    .credential-note { margin-top: 10px !important; padding-top: 10px; border-top: 1px solid var(--line); color: #c9c3b8 !important; font-size: .75rem !important; }
+    .npl-service { border-color: rgba(255,184,31,.52); background: linear-gradient(145deg, rgba(255,184,31,.12), rgba(255,255,255,.018)); }
+    .service-grid { display: grid; grid-template-columns: repeat(4,1fr); gap: 13px; }
+    .service-card { min-height: 245px; }
+    .service-icon { display: grid; place-items: center; width: 42px; height: 42px; margin-bottom: 24px; border: 1px solid rgba(255,184,31,.5); border-radius: 50%; color: var(--gold); font-size: 1.1rem; transition: transform .3s, background .3s, box-shadow .3s; }
+    .service-card:hover .service-icon { transform: rotate(-8deg) scale(1.08); background: var(--gold-soft); box-shadow: 0 0 24px rgba(255,184,31,.12); }
+    .process { display: grid; grid-template-columns: repeat(4,1fr); gap: 0; }
+    .process-step { position: relative; padding: 0 24px 0 0; }
+    .process-step:not(:last-child)::after { content: ""; position: absolute; top: 17px; left: 46px; right: 8px; height: 1px; background: var(--line); }
+    .step-dot { position: relative; z-index: 1; display: grid; place-items: center; width: 35px; height: 35px; margin-bottom: 24px; border: 1px solid var(--gold); border-radius: 50%; background: var(--bg); color: var(--gold); font-size: .76rem; }
+    .process-step p { font-size: .9rem; }
+    .case-card { padding: 0; overflow: hidden; }
+    .case-top { min-height: 130px; padding: 24px; background: linear-gradient(145deg, rgba(255,184,31,.13), rgba(255,184,31,.015) 60%), #171613; }
+    .case-top .tag { color: var(--gold); font-size: .72rem; letter-spacing: .12em; text-transform: uppercase; }
+    .case-body { padding: 22px 24px 24px; }
+    .case-body h3 { margin: 13px 0 6px; }
+    .case-location { margin-bottom: 18px; font-size: .86rem; }
+    .case-value { display: flex; justify-content: space-between; align-items: baseline; gap: 12px; padding-top: 14px; border-top: 1px solid var(--line); }
+    .case-value span { color: var(--muted); font-size: .76rem; }
+    .case-value strong { color: var(--gold); font-size: 1.12rem; }
+    .projects-grid { display: grid; grid-template-columns: repeat(3,1fr); gap: 14px; }
+    .project-card { min-height: 223px; display: flex; flex-direction: column; }
+    .project-card .tag { color: var(--gold); font-size: .7rem; letter-spacing: .12em; text-transform: uppercase; }
+    .project-card h3 { margin-top: 20px; }
+    .project-card p { margin-bottom: 18px; font-size: .88rem; }
+    .project-card .case-value { margin-top: auto; }
+    .portfolio-note { margin-top: 22px; padding: 15px 18px; border-left: 2px solid var(--gold); background: rgba(255,255,255,.025); font-size: .85rem; }
+    .split { display: grid; grid-template-columns: .95fr 1.05fr; gap: 70px; align-items: start; }
+    .about-panel { padding: 34px; border: 1px solid rgba(255,184,31,.28); border-radius: 3px 70px 3px 3px; background: linear-gradient(145deg, rgba(255,184,31,.09), transparent 65%), var(--panel); }
+    .values-list { display: flex; flex-wrap: wrap; gap: 9px; margin: 26px 0 0; padding: 0; list-style: none; }
+    .values-list li { padding: 7px 11px; border: 1px solid var(--line); border-radius: 99px; color: #ded9cf; font-size: .8rem; }
+    .team-grid { display: grid; grid-template-columns: repeat(3,1fr); gap: 12px; margin-top: 28px; }
+    .team-card { padding: 20px; border-top: 1px solid var(--gold); background: rgba(255,255,255,.025); transition: transform .28s, background .28s, border-color .28s; }
+    .team-card:hover { transform: translateY(-4px); background: rgba(255,184,31,.055); border-color: #ffd06b; }
+    .team-card h3 { font-size: 1rem; }
+    .team-card p { margin-bottom: 0; font-size: .83rem; }
+    .network { display: grid; grid-template-columns: repeat(2,1fr); gap: 14px; margin-top: 32px; }
+    .network-block { padding-top: 18px; border-top: 1px solid var(--line); }
+    .network-block h3 { color: var(--gold); font-size: .9rem; letter-spacing: .08em; text-transform: uppercase; }
+    .network-block p { margin-bottom: 5px; font-size: .87rem; }
+    .contact-section { background: linear-gradient(180deg, transparent, rgba(255,184,31,.035)); }
+    .contact-grid { display: grid; grid-template-columns: .85fr 1.15fr; gap: 55px; }
+    .contact-people { display: grid; gap: 12px; margin-top: 27px; }
+    .person-contact { padding: 20px; border: 1px solid var(--line); border-radius: 12px; background: rgba(255,255,255,.025); transition: transform .28s, border-color .28s, background .28s; }
+    .person-contact:hover { transform: translateY(-3px); border-color: rgba(255,184,31,.45); background: rgba(255,255,255,.045); }
+    .person-contact h3 { margin-bottom: 5px; }
+    .person-contact p { margin-bottom: 12px; font-size: .84rem; }
+    .contact-links { display: flex; flex-wrap: wrap; gap: 13px; font-size: .85rem; }
+    .contact-links a { color: var(--text); text-decoration-color: rgba(255,184,31,.55); text-underline-offset: 4px; }
+    .contact-links a:hover { color: var(--gold); }
+    .contact-form { padding: 28px; border: 1px solid var(--line); border-radius: var(--radius); background: var(--panel); }
+    .form-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 14px; }
+    .field { display: grid; gap: 7px; margin-bottom: 14px; }
+    .field.full { grid-column: 1 / -1; }
+    .field label { color: #d7d2c8; font-size: .8rem; }
+    .field input, .field select, .field textarea { width: 100%; border: 1px solid rgba(255,255,255,.16); border-radius: 5px; padding: 12px; background: #0e0e0c; color: var(--text); outline: none; }
+    .field input:focus, .field select:focus, .field textarea:focus { border-color: var(--gold); box-shadow: 0 0 0 3px rgba(255,184,31,.08); }
+    .field textarea { min-height: 120px; resize: vertical; }
+    .form-note { margin: 14px 0 0; font-size: .76rem; }
+    .site-footer { padding: 34px 0 26px; border-top: 1px solid var(--line); }
+    .footer-top { display: flex; justify-content: space-between; gap: 28px; align-items: start; }
+    .footer-brand { width: 190px; height: 55px; overflow: hidden; }
+    .footer-brand img { width: 100%; height: 100%; object-fit: cover; object-position: center; }
+    .footer-details { text-align: right; color: var(--muted); font-size: .8rem; }
+    .footer-details p { margin-bottom: 4px; }
+    .footer-bottom { display: flex; justify-content: space-between; gap: 15px; margin-top: 28px; padding-top: 16px; border-top: 1px solid var(--line); color: #8f8b82; font-size: .73rem; }
+    .legal-draft { color: #c3a15d; }
+    .sr-only { position: absolute; width: 1px; height: 1px; padding: 0; margin: -1px; overflow: hidden; clip: rect(0,0,0,0); white-space: nowrap; border: 0; }
+    .js .reveal { opacity: 0; transform: translateY(22px); transition: opacity .7s cubic-bezier(.2,.7,.2,1), transform .7s cubic-bezier(.2,.7,.2,1); transition-delay: var(--reveal-delay,0ms); }
+    .js .reveal.is-visible { opacity: 1; transform: translateY(0); }
+    @keyframes riseIn { from { opacity: 0; transform: translateY(20px); } to { opacity: 1; transform: translateY(0); } }
+    @keyframes artReveal { from { opacity: 0; transform: translateY(12px) scale(.985); } to { opacity: 1; transform: translateY(0) scale(1); } }
+    @keyframes haloBreathe { from { transform: scale(.96); opacity: .65; } to { transform: scale(1.04); opacity: 1; } }
+    @keyframes buildingGlow { from { filter: drop-shadow(0 0 1px rgba(255,184,31,.08)); opacity: .68; } to { filter: drop-shadow(0 0 13px rgba(255,184,31,.2)); opacity: 1; } }
+    @keyframes gridDrift { to { background-position: 40px 39px, 58px 40px; } }
+    @keyframes menuDrop { from { opacity: 0; transform: translateY(-7px); } to { opacity: 1; transform: translateY(0); } }
+    @media (max-width: 980px) {
+      .navlinks { gap: 14px; }
+      .navlinks a { font-size: .82rem; }
+      .nav-cta { display: none; }
+      .service-grid { grid-template-columns: repeat(2,1fr); }
+      .projects-grid { grid-template-columns: repeat(2,1fr); }
+      .hero-grid { gap: 32px; }
+      .split { gap: 38px; }
+    }
+    @media (max-width: 720px) {
+      .wrap { width: min(100% - 32px, var(--max)); }
+      .nav { min-height: 70px; }
+      .brand { width: 174px; height: 51px; }
+      .menu-toggle { display: inline-flex; }
+      .navlinks {
+        display: none; position: absolute; left: 16px; right: 16px; top: 69px;
+        padding: 18px; border: 1px solid var(--line); border-radius: 10px;
+        background: #11110f; flex-direction: column; align-items: stretch;
+      }
+      .navlinks.open { display: flex; animation: menuDrop .22s ease-out both; }
+      .navlinks a { padding: 7px 0; font-size: .95rem; }
+      .nav-actions { gap: 8px; }
+      .hero { padding: 79px 0 70px; }
+      .hero-grid, .split, .contact-grid { grid-template-columns: 1fr; }
+      .hero-grid { gap: 35px; }
+      .hero-art { min-height: 270px; }
+      .hero-meta { flex-direction: column; gap: 8px; margin-top: 28px; }
+      .section { padding: 78px 0; }
+      .intro-band { padding-bottom: 58px; }
+      .intro-band-inner { align-items: start; flex-direction: column; }
+      .grid-3, .grid-2, .service-grid, .process, .projects-grid { grid-template-columns: 1fr; }
+      .npl-proof { grid-template-columns: 1fr; }
+      .process { gap: 20px; }
+      .process-step { display: grid; grid-template-columns: 40px 1fr; column-gap: 13px; padding: 0; }
+      .process-step:not(:last-child)::after { top: 39px; left: 17px; right: auto; width: 1px; height: calc(100% - 20px); }
+      .step-dot { grid-row: span 2; margin: 0; }
+      .process-step h3 { margin-bottom: 5px; }
+      .process-step p { margin-bottom: 0; }
+      .team-grid, .network { grid-template-columns: 1fr; }
+      .contact-grid { gap: 30px; }
+      .form-grid { grid-template-columns: 1fr; }
+      .field.full { grid-column: auto; }
+      .footer-top, .footer-bottom { flex-direction: column; }
+      .footer-details { text-align: left; }
+    }
+    @media (prefers-reduced-motion: reduce) {
+      html { scroll-behavior: auto; }
+      *, *::before, *::after { animation-duration: .01ms !important; animation-iteration-count: 1 !important; transition-duration: .01ms !important; scroll-behavior: auto !important; }
+      .js .reveal { opacity: 1; transform: none; }
+    }
+  </style>
+</head>
+<body>
+  <div class="scroll-progress" aria-hidden="true"></div>
+  <header class="topbar">
+    <div class="wrap nav">
+      <a class="brand" href="#inicio" aria-label="AUREM, inicio"><img src="logo-aurem.png" alt="AUREM Patrimonio Inmobiliario"></a>
+      <nav class="navlinks" id="site-nav" aria-label="Navegación principal">
+        <a href="#npl" data-i18n="nav_npl">NPL</a>
+        <a href="#inversores" data-i18n="nav_invest">Inversores</a>
+        <a href="#servicios" data-i18n="nav_services">Servicios</a>
+        <a href="#experiencia" data-i18n="nav_experience">Experiencia</a>
+        <a href="#empresa" data-i18n="nav_about">AUREM</a>
+        <a href="#contacto" data-i18n="nav_contact">Contacto</a>
+      </nav>
+      <div class="nav-actions">
+        <div class="languages" role="group" aria-label="Idioma">
+          <button class="active" type="button" data-lang="es" aria-pressed="true">ES</button>
+          <button type="button" data-lang="ca" aria-pressed="false">CA</button>
+          <button type="button" data-lang="en" aria-pressed="false">EN</button>
+        </div>
+        <a class="button nav-cta" href="#contacto" data-i18n="nav_cta">Hablemos</a>
+        <button class="menu-toggle" type="button" aria-expanded="false" aria-controls="site-nav" data-i18n="menu">Menú</button>
+      </div>
+    </div>
+  </header>
+
+  <main>
+    <section class="hero" id="inicio">
+      <div class="wrap hero-grid">
+        <div class="hero-copy">
+          <p class="eyebrow" data-i18n="hero_kicker">Gestión de NPL · Inversión inmobiliaria</p>
+          <h1 data-i18n="hero_title">Gestión de NPL e inversión inmobiliaria, <span>de principio a fin.</span></h1>
+          <p class="lead" data-i18n="hero_lead">La gestión de NPL es hoy la actividad principal de AUREM. Acompañamos cada operación con un enfoque integral y personalizado, junto a inversores privados.</p>
+          <div class="hero-buttons">
+            <a class="button" href="#contacto" data-i18n="hero_primary">Consultar oportunidades NPL</a>
+            <a class="button secondary" href="#npl" data-i18n="hero_secondary">Cómo gestionamos NPL</a>
+          </div>
+          <div class="hero-meta">
+            <span data-i18n="hero_meta_1">Actividad principal actual: NPL</span>
+            <span data-i18n="hero_meta_2">España · Andorra · Paraguay</span>
+          </div>
+        </div>
+        <div class="hero-art" role="img" aria-label="Ilustración abstracta de arquitectura inmobiliaria">
+          <div class="art-lines"></div>
+          <div class="hero-caption" data-i18n="hero_caption">Una estrategia inmobiliaria a la medida de cada cliente</div>
+        </div>
+      </div>
+    </section>
+
+    <div class="intro-band">
+      <div class="wrap intro-band-inner">
+        <strong data-i18n="intro_line">Una relación directa, una gestión rigurosa y un equipo a tu lado durante toda la operación.</strong>
+        <span data-i18n="intro_label">Cercanía · criterio · compromiso</span>
+      </div>
+    </div>
+
+    <section class="section npl-feature" id="npl">
+      <div class="wrap">
+        <div class="section-head">
+          <p class="eyebrow" data-i18n="npl_kicker">Actividad principal actual</p>
+          <h2 data-i18n="npl_title">Gestión de NPL, con acompañamiento integral.</h2>
+          <p data-i18n="npl_lead">AUREM compra y gestiona NPL, coordinando las fases de análisis, subasta y cesión a inversores. Trabajamos con apoyo de profesionales jurídicos y equipos de gestión especializados.</p>
+        </div>
+        <div class="grid-3">
+          <article class="card npl-step"><span class="number">01 / NPL</span><h3 data-i18n="npl_step_1_title">Compra y análisis</h3><p data-i18n="npl_step_1_text">Estudiamos la operación y el activo asociado para definir el enfoque de gestión.</p></article>
+          <article class="card npl-step"><span class="number">02 / NPL</span><h3 data-i18n="npl_step_2_title">Gestión de subasta</h3><p data-i18n="npl_step_2_text">Coordinamos la fase de subasta junto con abogados y equipos gestores especializados.</p></article>
+          <article class="card npl-step"><span class="number">03 / NPL</span><h3 data-i18n="npl_step_3_title">Cesión a inversores</h3><p data-i18n="npl_step_3_text">Acompañamos la cesión de la operación y los trámites que solicite el fondo para cada inversor.</p></article>
+        </div>
+        <div class="npl-proof">
+          <div><strong data-i18n="npl_proof_1">3 compras de NPL</strong><span data-i18n="npl_proof_1_text">Operaciones reflejadas en la experiencia de AUREM</span></div>
+          <div><strong data-i18n="npl_proof_2">2 posiciones acreedoras</strong><span data-i18n="npl_proof_2_text">NPL indicados en la cartera actual</span></div>
+          <div><strong data-i18n="npl_proof_3">De principio a fin</strong><span data-i18n="npl_proof_3_text">Compra, subasta y cesión a inversores</span></div>
+        </div>
+        <a class="button" href="#contacto" data-i18n="npl_cta">Consultar sobre gestión NPL</a>
+      </div>
+    </section>
+
+    <section class="section" id="inversores">
+      <div class="wrap">
+        <div class="section-head">
+          <p class="eyebrow" data-i18n="invest_kicker">Para inversores privados</p>
+          <h2 data-i18n="invest_title">Cada inversión merece una estrategia propia.</h2>
+          <p data-i18n="invest_lead">Conocemos tus objetivos, estudiamos las alternativas y coordinamos cada fase con una gestión clara y personalizada. Las oportunidades se comparten directamente con cada inversor.</p>
+        </div>
+        <div class="grid-3">
+          <article class="card">
+            <span class="number">01 / <span data-i18n="value_num_1">ESTRATEGIA</span></span>
+            <h3 data-i18n="value_title_1">A la medida</h3>
+            <p data-i18n="value_text_1">Escuchamos tus objetivos y adaptamos el enfoque a tus necesidades y horizonte de inversión.</p>
+          </article>
+          <article class="card">
+            <span class="number">02 / <span data-i18n="value_num_2">GESTIÓN</span></span>
+            <h3 data-i18n="value_title_2">De principio a fin</h3>
+            <p data-i18n="value_text_2">Coordinamos el proceso completo, desde el análisis inicial hasta la venta o puesta en alquiler.</p>
+          </article>
+          <article class="card">
+            <span class="number">03 / <span data-i18n="value_num_3">RELACIÓN</span></span>
+            <h3 data-i18n="value_title_3">Cercanía y transparencia</h3>
+            <p data-i18n="value_text_3">Un trato directo, seguimiento detallado y comunicación clara en cada etapa.</p>
+          </article>
+        </div>
+      </div>
+    </section>
+
+    <section class="section" id="estrategias">
+      <div class="wrap">
+        <div class="section-head">
+          <p class="eyebrow" data-i18n="strategy_kicker">Estrategias inmobiliarias</p>
+          <h2 data-i18n="strategy_title">Dos vías. Una gestión adaptada al objetivo.</h2>
+        </div>
+        <div class="grid-2">
+          <article class="card strategy-card">
+            <span class="number">CRA</span>
+            <h3 data-i18n="cra_title">Compra · Reforma · Alquiler</h3>
+            <p data-i18n="cra_text">Una estrategia orientada a adquirir un activo, reformarlo y prepararlo para su explotación en alquiler.</p>
+          </article>
+          <article class="card strategy-card">
+            <span class="number">CRV</span>
+            <h3 data-i18n="crv_title">Compra · Reforma · Venta</h3>
+            <p data-i18n="crv_text">Una estrategia centrada en adquirir un activo, mejorar su potencial y gestionar su comercialización.</p>
+          </article>
+        </div>
+      </div>
+    </section>
+
+    <section class="section" id="servicios">
+      <div class="wrap">
+        <div class="section-head">
+          <p class="eyebrow" data-i18n="services_kicker">Qué hacemos</p>
+          <h2 data-i18n="services_title">Gestión inmobiliaria con visión de conjunto.</h2>
+          <p data-i18n="services_lead">Unimos análisis, conocimiento del activo y coordinación de profesionales para acompañar operaciones de distinta naturaleza.</p>
+        </div>
+        <div class="service-grid">
+          <article class="card service-card npl-service">
+            <div class="service-icon" aria-hidden="true">↗</div>
+            <h3 data-i18n="service_1_title">Gestión de NPL</h3>
+            <p data-i18n="service_1_text">Compra y gestión de NPL, coordinación de subastas y acompañamiento en la cesión a inversores.</p>
+          </article>
+          <article class="card service-card">
+            <div class="service-icon" aria-hidden="true">⌂</div>
+            <h3 data-i18n="service_2_title">Inversión CRA y CRV</h3>
+            <p data-i18n="service_2_text">Estrategias de compra, reforma y venta o alquiler, con gestión personalizada en cada fase.</p>
+          </article>
+          <article class="card service-card">
+            <div class="service-icon" aria-hidden="true">▤</div>
+            <h3 data-i18n="service_3_title">Promoción de obra nueva</h3>
+            <p data-i18n="service_3_text">Gestión y coordinación de proyectos residenciales y de otros usos en España y fuera de España.</p>
+          </article>
+          <article class="card service-card">
+            <div class="service-icon" aria-hidden="true">⌕</div>
+            <h3 data-i18n="service_4_title">Consultoría y comercialización</h3>
+            <p data-i18n="service_4_text">Estudios de mercado, comercialización e intermediación de activos residenciales, industriales, hoteleros y suelo.</p>
+          </article>
+        </div>
+        <p class="portfolio-note" data-i18n="pbc_note">En operaciones que lo requieren, acompañamos la preparación de la documentación PBC/KYC que solicite el fondo para la participación del inversor.</p>
+      </div>
+    </section>
+
+    <section class="section">
+      <div class="wrap">
+        <div class="section-head">
+          <p class="eyebrow" data-i18n="process_kicker">Cómo trabajamos</p>
+          <h2 data-i18n="process_title">Un proceso claro, con atención en cada detalle.</h2>
+        </div>
+        <div class="process">
+          <article class="process-step">
+            <div class="step-dot">01</div>
+            <h3 data-i18n="step_1_title">Escuchamos</h3>
+            <p data-i18n="step_1_text">Entendemos el perfil, las prioridades y el objetivo de cada cliente.</p>
+          </article>
+          <article class="process-step">
+            <div class="step-dot">02</div>
+            <h3 data-i18n="step_2_title">Analizamos</h3>
+            <p data-i18n="step_2_text">Estudiamos el activo y la estrategia adecuada para la operación.</p>
+          </article>
+          <article class="process-step">
+            <div class="step-dot">03</div>
+            <h3 data-i18n="step_3_title">Coordinamos</h3>
+            <p data-i18n="step_3_text">Acompañamos la ejecución con profesionales especializados.</p>
+          </article>
+          <article class="process-step">
+            <div class="step-dot">04</div>
+            <h3 data-i18n="step_4_title">Gestionamos</h3>
+            <p data-i18n="step_4_text">Seguimos cada fase hasta la salida prevista: venta o alquiler.</p>
+          </article>
+        </div>
+      </div>
+    </section>
+
+    <section class="section" id="experiencia">
+      <div class="wrap">
+        <div class="section-head">
+          <p class="eyebrow" data-i18n="experience_kicker">Experiencia</p>
+          <h2 data-i18n="experience_title">Operaciones y activos gestionados.</h2>
+          <p data-i18n="experience_lead">Una selección de operaciones presentada con ubicaciones amplias para proteger la confidencialidad de los activos.</p>
+        </div>
+        <div class="grid-2">
+          <article class="card case-card">
+            <div class="case-top"><span class="tag">NPL</span><h3 data-i18n="case_1_title">Compra de deuda</h3></div>
+            <div class="case-body"><p class="case-location" data-i18n="case_1_location">Comunidad de Madrid</p><div class="case-value"><span data-i18n="value_label">Valor indicado</span><strong>340.000 €</strong></div></div>
+          </article>
+          <article class="card case-card">
+            <div class="case-top"><span class="tag">NPL</span><h3 data-i18n="case_2_title">Compra de deuda</h3></div>
+            <div class="case-body"><p class="case-location" data-i18n="case_2_location">Comunidad de Madrid</p><div class="case-value"><span data-i18n="value_label">Valor indicado</span><strong>300.000 €</strong></div></div>
+          </article>
+          <article class="card case-card">
+            <div class="case-top"><span class="tag">NPL</span><h3 data-i18n="case_3_title">Compra de deuda</h3></div>
+            <div class="case-body"><p class="case-location" data-i18n="case_3_location">Comunidad de Madrid</p><div class="case-value"><span data-i18n="value_label">Valor indicado</span><strong>260.000 €</strong></div></div>
+          </article>
+          <article class="card case-card">
+            <div class="case-top"><span class="tag" data-i18n="case_4_tag">Residencial</span><h3 data-i18n="case_4_title">Comercialización de viviendas ocupadas</h3></div>
+            <div class="case-body"><p class="case-location" data-i18n="case_4_location">Cataluña</p><div class="case-value"><span data-i18n="value_label">Valor indicado</span><strong>220.000 €</strong></div></div>
+          </article>
+        </div>
+        <div class="portfolio-note" data-i18n="experience_note">Experiencia adicional en venta de activos REO ocupados, adquisición de NPL y gestión de posiciones acreedoras y operaciones WIP.</div>
+      </div>
+    </section>
+
+    <section class="section">
+      <div class="wrap">
+        <div class="section-head">
+          <p class="eyebrow" data-i18n="projects_kicker">Promociones y proyectos</p>
+          <h2 data-i18n="projects_title">Actividad en distintos mercados y tipologías.</h2>
+          <p data-i18n="projects_lead">Proyectos recogidos en la presentación corporativa, con importes y referencias geográficas generales.</p>
+        </div>
+        <div class="projects-grid">
+          <article class="card project-card"><span class="tag" data-i18n="project_status">Proyecto en cartera</span><h3 data-i18n="project_1_title">Cambio de uso: gimnasio a residencial</h3><p data-i18n="project_1_region">Área de Bilbao · Operación inmobiliaria</p><div class="case-value"><span data-i18n="value_label">Valor indicado</span><strong>900.000 €</strong></div></article>
+          <article class="card project-card"><span class="tag" data-i18n="project_status">Proyecto en cartera</span><h3 data-i18n="project_2_title">Promoción de edificios completos</h3><p data-i18n="project_2_region">Paraguay · Obra nueva</p><div class="case-value"><span data-i18n="value_label">Valor indicado</span><strong>9.000.000 €</strong></div></article>
+          <article class="card project-card"><span class="tag" data-i18n="project_status">Proyecto en cartera</span><h3 data-i18n="project_3_title">Viviendas en urbanización de alto nivel</h3><p data-i18n="project_3_region">Comunidad de Madrid · Obra nueva</p><div class="case-value"><span data-i18n="value_label">Valor indicado</span><strong>9.000.000 €</strong></div></article>
+          <article class="card project-card"><span class="tag" data-i18n="project_status">Proyecto en cartera</span><h3 data-i18n="project_4_title">Promoción de viviendas</h3><p data-i18n="project_4_region">Cantabria · Obra nueva</p><div class="case-value"><span data-i18n="value_label">Valor indicado</span><strong>1.100.000 €</strong></div></article>
+          <article class="card project-card"><span class="tag" data-i18n="project_status">Proyecto en cartera</span><h3 data-i18n="project_5_title">Urbanización con hotel</h3><p data-i18n="project_5_region">Andorra · Desarrollo por fases</p><div class="case-value"><span data-i18n="value_label">Valor indicado</span><strong>11.000.000 €</strong></div></article>
+          <article class="card project-card"><span class="tag" data-i18n="project_status">Proyecto en cartera</span><h3 data-i18n="project_6_title">Urbanización residencial por fases</h3><p data-i18n="project_6_region">Provincia de Girona · Importe del terreno</p><div class="case-value"><span data-i18n="value_label">Valor indicado</span><strong>6.000.000 €</strong></div></article>
+        </div>
+        <p class="portfolio-note" data-i18n="projects_note">Las oportunidades de inversión no se publican en abierto. Contacta con AUREM para conocer la información disponible para cada perfil.</p>
+      </div>
+    </section>
+
+    <section class="section" id="empresa">
+      <div class="wrap split">
+        <div class="about-panel">
+          <p class="eyebrow" data-i18n="about_kicker">AUREM Patrimonio Inmobiliario</p>
+          <h2 data-i18n="about_title">Una empresa familiar, un compromiso cercano.</h2>
+          <p data-i18n="about_text">Fundada en 2025, AUREM es una empresa familiar que reúne especialización comercial, inmobiliaria, comunicación y diseño. Trabajamos con una visión integral y una red de colaboradores para acompañar cada operación con profesionalidad y atención personal.</p>
+          <ul class="values-list">
+            <li data-i18n="value_transparency">Transparencia</li>
+            <li data-i18n="value_professionalism">Profesionalidad</li>
+            <li data-i18n="value_innovation">Innovación</li>
+            <li data-i18n="value_commitment">Compromiso</li>
+            <li data-i18n="value_client">Orientación al cliente</li>
+          </ul>
+        </div>
+        <div>
+          <p class="eyebrow" data-i18n="team_kicker">Personas y colaboradores</p>
+          <h2 data-i18n="team_title">Un equipo que acompaña cada etapa.</h2>
+          <div class="team-grid">
+            <article class="team-card"><h3>Silvia Torres Valenzuela</h3><p data-i18n="role_silvia">Administradora</p></article>
+            <article class="team-card"><h3>Alberto Candón Torres</h3><p data-i18n="role_alberto">API · Socio trabajador</p><p class="credential-note" data-i18n="cred_alberto">Formación en subastas judiciales · Business School INEAF, respaldada por la Universidad Nebrija.</p></article>
+            <article class="team-card"><h3>Marta Candón Torres</h3><p data-i18n="role_marta">Diseñadora gráfica · Socia</p></article>
+          </div>
+          <div class="network">
+            <div class="network-block"><h3 data-i18n="collaborators">Colaboradores</h3><p>Gerard Reyes · <span data-i18n="gestoria">Gestoría</span></p><p>Poseidon Law Partners · <span data-i18n="legal_advice">Asesoría legal</span></p></div>
+            <div class="network-block"><h3 data-i18n="credentials">Red y acreditaciones</h3><p>API / AICAT</p><p>Club de Inversores Zona3 · InversorPro</p></div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="section contact-section" id="contacto">
+      <div class="wrap contact-grid">
+        <div>
+          <p class="eyebrow" data-i18n="contact_kicker">Hablemos</p>
+          <h2 data-i18n="contact_title">Cuéntanos qué necesitas.</h2>
+          <p data-i18n="contact_lead">Si quieres conocer oportunidades, presentar un activo o estudiar un proyecto, nuestro equipo puede orientarte sobre el siguiente paso.</p>
+          <div class="contact-people">
+            <article class="person-contact">
+              <h3>Silvia Torres Valenzuela</h3>
+              <p data-i18n="role_silvia">Administradora</p>
+              <div class="contact-links"><a href="tel:+34625232807">+34 625 232 807</a><a href="https://wa.me/34625232807" target="_blank" rel="noreferrer" data-i18n="whatsapp">WhatsApp</a><a href="mailto:silvia@inmoaurem.com">silvia@inmoaurem.com</a></div>
+            </article>
+            <article class="person-contact">
+              <h3>Alberto Candón Torres</h3>
+              <p data-i18n="role_alberto">API · Socio trabajador</p>
+              <div class="contact-links"><a href="tel:+34602567734">+34 602 567 734</a><a href="https://wa.me/34602567734" target="_blank" rel="noreferrer" data-i18n="whatsapp">WhatsApp</a><a href="mailto:alberto@inmoaurem.com">alberto@inmoaurem.com</a></div>
+            </article>
+          </div>
+        </div>
+        <form class="contact-form" id="contact-form">
+          <div class="form-grid">
+            <div class="field"><label for="name" data-i18n="form_name">Nombre</label><input id="name" name="name" autocomplete="name" required></div>
+            <div class="field"><label for="email" data-i18n="form_email">Email</label><input id="email" name="email" type="email" autocomplete="email" required></div>
+            <div class="field"><label for="phone" data-i18n="form_phone">Teléfono (opcional)</label><input id="phone" name="phone" type="tel" autocomplete="tel"></div>
+            <div class="field full"><label for="interest" data-i18n="form_interest">¿En qué podemos ayudarte?</label>
+              <select id="interest" name="interest" required>
+                <option value="" data-i18n="form_choose">Selecciona una opción</option>
+                <option data-i18n="form_option_1">Quiero conocer oportunidades de inversión</option>
+                <option data-i18n="form_option_2">Quiero presentar un activo o una deuda</option>
+                <option data-i18n="form_option_3">Busco gestionar una promoción</option>
+                <option data-i18n="form_option_4">Quiero solicitar una consulta o valoración</option>
+                <option data-i18n="form_option_5">Otra consulta</option>
+              </select>
+            </div>
+            <div class="field full"><label for="message" data-i18n="form_message">Mensaje</label><textarea id="message" name="message" required></textarea></div>
+          </div>
+          <button class="button" type="submit" data-i18n="form_send">Preparar consulta por email</button>
+          <p class="form-note" data-i18n="form_note">El formulario abrirá tu aplicación de correo y enviará la consulta a Silvia y Alberto. No incluyas documentación financiera sensible.</p>
+        </form>
+      </div>
+    </section>
+  </main>
+
+  <footer class="site-footer">
+    <div class="wrap">
+      <div class="footer-top">
+        <a class="footer-brand" href="#inicio" aria-label="AUREM, inicio"><img src="logo-aurem.png" alt="AUREM Patrimonio Inmobiliario"></a>
+        <div class="footer-details">
+          <p><strong>Aurem Patrimonio Inmobiliario S.L.</strong> · CIF B23966724</p>
+          <p>Carrer del Berguedà 81 · 08303 Mataró (Barcelona)</p>
+          <p><a href="mailto:alberto@inmoaurem.com">alberto@inmoaurem.com</a> · <a href="mailto:silvia@inmoaurem.com">silvia@inmoaurem.com</a></p>
+        </div>
+      </div>
+      <div class="footer-bottom">
+        <span>© <span id="year"></span> AUREM Patrimonio Inmobiliario</span>
+        <span class="legal-draft" data-i18n="legal_note">Prototipo: completar aviso legal, privacidad y cookies antes de publicar.</span>
+      </div>
+    </div>
+  </footer>
+
+  <script>
+    const translations = {
+      es: {
+        nav_invest:"Inversores",nav_services:"Servicios",nav_experience:"Experiencia",nav_about:"AUREM",nav_contact:"Contacto",nav_cta:"Hablemos",menu:"Menú",
+        hero_kicker:"Patrimonio inmobiliario · España y mercados internacionales",hero_title:"Tu inversión inmobiliaria, <span>acompañada de principio a fin.</span>",hero_lead:"Analizamos y gestionamos oportunidades inmobiliarias con una atención cercana, detallada y adaptada a cada inversor privado.",hero_primary:"Quiero conocer oportunidades",hero_secondary:"Descubrir cómo trabajamos",hero_meta_1:"Gestión personalizada e integral",hero_meta_2:"España · Andorra · Paraguay",hero_caption:"Una estrategia inmobiliaria a la medida de cada cliente",
+        intro_line:"Una relación directa, una gestión rigurosa y un equipo a tu lado durante toda la operación.",intro_label:"Cercanía · criterio · compromiso",
+        invest_kicker:"Para inversores privados",invest_title:"Cada inversión merece una estrategia propia.",invest_lead:"Conocemos tus objetivos, estudiamos las alternativas y coordinamos cada fase con una gestión clara y personalizada. Las oportunidades se comparten directamente con cada inversor.",
+        value_num_1:"ESTRATEGIA",value_title_1:"A la medida",value_text_1:"Escuchamos tus objetivos y adaptamos el enfoque a tus necesidades y horizonte de inversión.",value_num_2:"GESTIÓN",value_title_2:"De principio a fin",value_text_2:"Coordinamos el proceso completo, desde el análisis inicial hasta la venta o puesta en alquiler.",value_num_3:"RELACIÓN",value_title_3:"Cercanía y transparencia",value_text_3:"Un trato directo, seguimiento detallado y comunicación clara en cada etapa.",
+        strategy_kicker:"Estrategias inmobiliarias",strategy_title:"Dos vías. Una gestión adaptada al objetivo.",cra_title:"Compra · Reforma · Alquiler",cra_text:"Una estrategia orientada a adquirir un activo, reformarlo y prepararlo para su explotación en alquiler.",crv_title:"Compra · Reforma · Venta",crv_text:"Una estrategia centrada en adquirir un activo, mejorar su potencial y gestionar su comercialización.",
+        services_kicker:"Qué hacemos",services_title:"Gestión inmobiliaria con visión de conjunto.",services_lead:"Unimos análisis, conocimiento del activo y coordinación de profesionales para acompañar operaciones de distinta naturaleza.",service_1_title:"Inversión inmobiliaria",service_1_text:"Análisis y gestión de estrategias CRA y CRV, con acompañamiento personalizado en cada fase.",service_2_title:"NPL, REO y activos WIP",service_2_text:"Gestión y comercialización de deuda, activos REO ocupados y proyectos en curso.",service_3_title:"Promoción de obra nueva",service_3_text:"Gestión y coordinación de proyectos residenciales y de otros usos en España y fuera de España.",service_4_title:"Consultoría y comercialización",service_4_text:"Estudios de mercado, comercialización e intermediación de activos residenciales, industriales, hoteleros y suelo.",pbc_note:"En operaciones que lo requieren, acompañamos la preparación de la documentación PBC/KYC que solicite el fondo para la participación del inversor.",
+        process_kicker:"Cómo trabajamos",process_title:"Un proceso claro, con atención en cada detalle.",step_1_title:"Escuchamos",step_1_text:"Entendemos el perfil, las prioridades y el objetivo de cada cliente.",step_2_title:"Analizamos",step_2_text:"Estudiamos el activo y la estrategia adecuada para la operación.",step_3_title:"Coordinamos",step_3_text:"Acompañamos la ejecución con profesionales especializados.",step_4_title:"Gestionamos",step_4_text:"Seguimos cada fase hasta la salida prevista: venta o alquiler.",
+        experience_kicker:"Experiencia",experience_title:"Operaciones y activos gestionados.",experience_lead:"Una selección de operaciones presentada con ubicaciones amplias para proteger la confidencialidad de los activos.",case_1_title:"Compra de deuda",case_1_location:"Comunidad de Madrid",case_2_title:"Compra de deuda",case_2_location:"Comunidad de Madrid",case_3_title:"Compra de deuda",case_3_location:"Comunidad de Madrid",case_4_tag:"Residencial",case_4_title:"Comercialización de viviendas ocupadas",case_4_location:"Cataluña",value_label:"Valor indicado",experience_note:"Experiencia adicional en venta de activos REO ocupados, adquisición de NPL y gestión de posiciones acreedoras y operaciones WIP.",
+        projects_kicker:"Promociones y proyectos",projects_title:"Actividad en distintos mercados y tipologías.",projects_lead:"Proyectos recogidos en la presentación corporativa, con importes y referencias geográficas generales.",project_status:"Proyecto en cartera",project_1_title:"Cambio de uso: gimnasio a residencial",project_1_region:"Área de Bilbao · Operación inmobiliaria",project_2_title:"Promoción de edificios completos",project_2_region:"Paraguay · Obra nueva",project_3_title:"Viviendas en urbanización de alto nivel",project_3_region:"Comunidad de Madrid · Obra nueva",project_4_title:"Promoción de viviendas",project_4_region:"Cantabria · Obra nueva",project_5_title:"Urbanización con hotel",project_5_region:"Andorra · Desarrollo por fases",project_6_title:"Urbanización residencial por fases",project_6_region:"Provincia de Girona · Importe del terreno",projects_note:"Las oportunidades de inversión no se publican en abierto. Contacta con AUREM para conocer la información disponible para cada perfil.",
+        about_kicker:"AUREM Patrimonio Inmobiliario",about_title:"Una empresa familiar, un compromiso cercano.",about_text:"Fundada en 2025, AUREM es una empresa familiar que reúne especialización comercial, inmobiliaria, comunicación y diseño. Trabajamos con una visión integral y una red de colaboradores para acompañar cada operación con profesionalidad y atención personal.",value_transparency:"Transparencia",value_professionalism:"Profesionalidad",value_innovation:"Innovación",value_commitment:"Compromiso",value_client:"Orientación al cliente",
+        team_kicker:"Personas y colaboradores",team_title:"Un equipo que acompaña cada etapa.",role_silvia:"Administradora",role_alberto:"API · Socio trabajador",role_marta:"Diseñadora gráfica · Socia",collaborators:"Colaboradores",gestoria:"Gestoría",legal_advice:"Asesoría legal",credentials:"Red y acreditaciones",
+        contact_kicker:"Hablemos",contact_title:"Cuéntanos qué necesitas.",contact_lead:"Si quieres conocer oportunidades, presentar un activo o estudiar un proyecto, nuestro equipo puede orientarte sobre el siguiente paso.",whatsapp:"WhatsApp",
+        form_name:"Nombre",form_email:"Email",form_interest:"¿En qué podemos ayudarte?",form_choose:"Selecciona una opción",form_option_1:"Quiero conocer oportunidades de inversión",form_option_2:"Quiero presentar un activo o una deuda",form_option_3:"Busco gestionar una promoción",form_option_4:"Quiero solicitar una consulta o valoración",form_option_5:"Otra consulta",form_message:"Mensaje",form_send:"Preparar consulta por email",form_note:"El formulario abrirá tu aplicación de correo y enviará la consulta a Silvia y Alberto. No incluyas documentación financiera sensible.",legal_note:"Prototipo: completar aviso legal, privacidad y cookies antes de publicar."
+      },
+      ca: {
+        nav_invest:"Inversors",nav_services:"Serveis",nav_experience:"Experiència",nav_about:"AUREM",nav_contact:"Contacte",nav_cta:"Parlem-ne",menu:"Menú",
+        hero_kicker:"Patrimoni immobiliari · Espanya i mercats internacionals",hero_title:"La teva inversió immobiliària, <span>acompanyada de principi a fi.</span>",hero_lead:"Analitzem i gestionem oportunitats immobiliàries amb un tracte proper, detallat i adaptat a cada inversor privat.",hero_primary:"Vull conèixer oportunitats",hero_secondary:"Descobreix com treballem",hero_meta_1:"Gestió personalitzada i integral",hero_meta_2:"Espanya · Andorra · Paraguai",hero_caption:"Una estratègia immobiliària a mida de cada client",
+        intro_line:"Una relació directa, una gestió rigorosa i un equip al teu costat durant tota l'operació.",intro_label:"Proximitat · criteri · compromís",
+        invest_kicker:"Per a inversors privats",invest_title:"Cada inversió mereix una estratègia pròpia.",invest_lead:"Coneixem els teus objectius, estudiem les alternatives i coordinem cada fase amb una gestió clara i personalitzada. Compartim les oportunitats directament amb cada inversor.",
+        value_num_1:"ESTRATÈGIA",value_title_1:"A mida",value_text_1:"Escoltem els teus objectius i adaptem l'enfocament a les teves necessitats i horitzó d'inversió.",value_num_2:"GESTIÓ",value_title_2:"De principi a fi",value_text_2:"Coordinem tot el procés, des de l'anàlisi inicial fins a la venda o la posada en lloguer.",value_num_3:"RELACIÓ",value_title_3:"Proximitat i transparència",value_text_3:"Tracte directe, seguiment detallat i comunicació clara en cada etapa.",
+        strategy_kicker:"Estratègies immobiliàries",strategy_title:"Dues vies. Una gestió adaptada a l'objectiu.",cra_title:"Compra · Reforma · Lloguer",cra_text:"Estratègia orientada a adquirir un actiu, reformar-lo i preparar-lo per al lloguer.",crv_title:"Compra · Reforma · Venda",crv_text:"Estratègia centrada a adquirir un actiu, millorar-ne el potencial i gestionar-ne la comercialització.",
+        services_kicker:"Què fem",services_title:"Gestió immobiliària amb una visió global.",services_lead:"Combinem anàlisi, coneixement de l'actiu i coordinació de professionals per acompanyar operacions de naturalesa diversa.",service_1_title:"Inversió immobiliària",service_1_text:"Anàlisi i gestió d'estratègies CRA i CRV, amb acompanyament personalitzat en cada fase.",service_2_title:"NPL, REO i actius WIP",service_2_text:"Gestió i comercialització de deute, actius REO ocupats i projectes en curs.",service_3_title:"Promoció d'obra nova",service_3_text:"Gestió i coordinació de projectes residencials i d'altres usos a Espanya i a l'estranger.",service_4_title:"Consultoria i comercialització",service_4_text:"Estudis de mercat, comercialització i intermediació d'actius residencials, industrials, hotelers i sòl.",pbc_note:"En les operacions que ho requereixen, acompanyem la preparació de la documentació PBC/KYC que sol·liciti el fons per a la participació de l'inversor.",
+        process_kicker:"Com treballem",process_title:"Un procés clar, atent a cada detall.",step_1_title:"Escoltem",step_1_text:"Entenem el perfil, les prioritats i l'objectiu de cada client.",step_2_title:"Analitzem",step_2_text:"Estudiem l'actiu i l'estratègia adequada per a l'operació.",step_3_title:"Coordinem",step_3_text:"Acompanyem l'execució amb professionals especialitzats.",step_4_title:"Gestionem",step_4_text:"Seguim cada fase fins a la sortida prevista: venda o lloguer.",
+        experience_kicker:"Experiència",experience_title:"Operacions i actius gestionats.",experience_lead:"Una selecció d'operacions amb ubicacions àmplies per protegir la confidencialitat dels actius.",case_1_title:"Compra de deute",case_1_location:"Comunitat de Madrid",case_2_title:"Compra de deute",case_2_location:"Comunitat de Madrid",case_3_title:"Compra de deute",case_3_location:"Comunitat de Madrid",case_4_tag:"Residencial",case_4_title:"Comercialització d'habitatges ocupats",case_4_location:"Catalunya",value_label:"Valor indicat",experience_note:"Experiència addicional en venda d'actius REO ocupats, adquisició de NPL i gestió de posicions creditores i operacions WIP.",
+        projects_kicker:"Promocions i projectes",projects_title:"Activitat en diferents mercats i tipologies.",projects_lead:"Projectes de la presentació corporativa, amb imports i referències geogràfiques generals.",project_status:"Projecte en cartera",project_1_title:"Canvi d'ús: gimnàs a residencial",project_1_region:"Àrea de Bilbao · Operació immobiliària",project_2_title:"Promoció d'edificis complets",project_2_region:"Paraguai · Obra nova",project_3_title:"Habitatges en urbanització d'alt nivell",project_3_region:"Comunitat de Madrid · Obra nova",project_4_title:"Promoció d'habitatges",project_4_region:"Cantàbria · Obra nova",project_5_title:"Urbanització amb hotel",project_5_region:"Andorra · Desenvolupament per fases",project_6_title:"Urbanització residencial per fases",project_6_region:"Província de Girona · Import del terreny",projects_note:"Les oportunitats d'inversió no es publiquen obertament. Contacta amb AUREM per conèixer la informació disponible per a cada perfil.",
+        about_kicker:"AUREM Patrimoni Immobiliari",about_title:"Una empresa familiar, un compromís proper.",about_text:"Fundada el 2025, AUREM és una empresa familiar que reuneix especialització comercial, immobiliària, comunicació i disseny. Treballem amb una visió integral i una xarxa de col·laboradors per acompanyar cada operació amb professionalitat i atenció personal.",value_transparency:"Transparència",value_professionalism:"Professionalitat",value_innovation:"Innovació",value_commitment:"Compromís",value_client:"Orientació al client",
+        team_kicker:"Persones i col·laboradors",team_title:"Un equip que acompanya cada etapa.",role_silvia:"Administradora",role_alberto:"API · Soci treballador",role_marta:"Dissenyadora gràfica · Sòcia",collaborators:"Col·laboradors",gestoria:"Gestoria",legal_advice:"Assessoria legal",credentials:"Xarxa i acreditacions",
+        contact_kicker:"Parlem-ne",contact_title:"Explica'ns què necessites.",contact_lead:"Si vols conèixer oportunitats, presentar un actiu o estudiar un projecte, el nostre equip et pot orientar sobre el pas següent.",whatsapp:"WhatsApp",
+        form_name:"Nom",form_email:"Correu electrònic",form_interest:"En què et podem ajudar?",form_choose:"Selecciona una opció",form_option_1:"Vull conèixer oportunitats d'inversió",form_option_2:"Vull presentar un actiu o un deute",form_option_3:"Busco gestionar una promoció",form_option_4:"Vull sol·licitar una consulta o valoració",form_option_5:"Una altra consulta",form_message:"Missatge",form_send:"Preparar consulta per correu",form_note:"El formulari obrirà la teva aplicació de correu i enviarà la consulta a la Silvia i l'Alberto. No hi incloguis documentació financera sensible.",legal_note:"Prototip: cal completar l'avís legal, la privacitat i les galetes abans de publicar."
+      },
+      en: {
+        nav_invest:"Investors",nav_services:"Services",nav_experience:"Experience",nav_about:"AUREM",nav_contact:"Contact",nav_cta:"Let's talk",menu:"Menu",
+        hero_kicker:"Real estate assets · Spain and international markets",hero_title:"Your real estate investment, <span>supported from start to finish.</span>",hero_lead:"We analyse and manage real estate opportunities with attentive, detailed service tailored to each private investor.",hero_primary:"Explore investment opportunities",hero_secondary:"How we work",hero_meta_1:"Personalised, end-to-end management",hero_meta_2:"Spain · Andorra · Paraguay",hero_caption:"A real estate strategy tailored to each client",
+        intro_line:"A direct relationship, rigorous management and a team by your side throughout the operation.",intro_label:"Care · judgement · commitment",
+        invest_kicker:"For private investors",invest_title:"Every investment deserves its own strategy.",invest_lead:"We learn about your objectives, assess the alternatives and coordinate each phase with clear, personalised management. Opportunities are shared directly with each investor.",
+        value_num_1:"STRATEGY",value_title_1:"Tailored",value_text_1:"We listen to your objectives and adapt our approach to your needs and investment horizon.",value_num_2:"MANAGEMENT",value_title_2:"End to end",value_text_2:"We coordinate the complete process, from initial analysis through sale or rental.",value_num_3:"RELATIONSHIP",value_title_3:"Personal and transparent",value_text_3:"Direct communication, detailed follow-up and clear updates at every stage.",
+        strategy_kicker:"Real estate strategies",strategy_title:"Two paths. Management tailored to the goal.",cra_title:"Purchase · Renovation · Rental",cra_text:"A strategy focused on acquiring an asset, renovating it and preparing it for rental.",crv_title:"Purchase · Renovation · Sale",crv_text:"A strategy focused on acquiring an asset, improving its potential and managing its sale.",
+        services_kicker:"What we do",services_title:"Real estate management with a complete view.",services_lead:"We bring together analysis, asset knowledge and professional coordination to support different types of transactions.",service_1_title:"Real estate investment",service_1_text:"Analysis and management of CRA and CRV strategies, with personalised support at every stage.",service_2_title:"NPL, REO and WIP assets",service_2_text:"Management and sale of debt, occupied REO assets and projects in progress.",service_3_title:"New developments",service_3_text:"Management and coordination of residential and other development projects in Spain and abroad.",service_4_title:"Consultancy and sales",service_4_text:"Market studies, sales and brokerage for residential, industrial, hospitality and land assets.",pbc_note:"Where required, we support the preparation of PBC/KYC documentation requested by a fund for an investor's participation.",
+        process_kicker:"How we work",process_title:"A clear process, with care in every detail.",step_1_title:"We listen",step_1_text:"We understand each client's profile, priorities and objectives.",step_2_title:"We analyse",step_2_text:"We assess the asset and the strategy suited to the transaction.",step_3_title:"We coordinate",step_3_text:"We support execution alongside specialised professionals.",step_4_title:"We manage",step_4_text:"We follow each stage through to the planned exit: sale or rental.",
+        experience_kicker:"Experience",experience_title:"Transactions and assets managed.",experience_lead:"A selection of transactions with broad location references to protect asset confidentiality.",case_1_title:"Debt acquisition",case_1_location:"Community of Madrid",case_2_title:"Debt acquisition",case_2_location:"Community of Madrid",case_3_title:"Debt acquisition",case_3_location:"Community of Madrid",case_4_tag:"Residential",case_4_title:"Sale of occupied homes",case_4_location:"Catalonia",value_label:"Reported value",experience_note:"Additional experience in sales of occupied REO assets, NPL acquisitions, creditor positions and WIP transactions.",
+        projects_kicker:"Developments and projects",projects_title:"Activity across markets and asset types.",projects_lead:"Projects from the corporate presentation, shown with amounts and broad geographic references.",project_status:"Portfolio project",project_1_title:"Change of use: gym to residential",project_1_region:"Bilbao area · Real estate transaction",project_2_title:"Full-building development",project_2_region:"Paraguay · New development",project_3_title:"Homes in a high-end residential community",project_3_region:"Community of Madrid · New development",project_4_title:"Residential development",project_4_region:"Cantabria · New development",project_5_title:"Residential community with hotel",project_5_region:"Andorra · Phased development",project_6_title:"Phased residential community",project_6_region:"Girona province · Land value",projects_note:"Investment opportunities are not listed publicly. Contact AUREM to learn what information is available for your profile.",
+        about_kicker:"AUREM Real Estate Assets",about_title:"A family business with a personal commitment.",about_text:"Founded in 2025, AUREM is a family business bringing together commercial, real estate, communications and design expertise. We take an end-to-end approach and work with a network of collaborators to support every transaction with professionalism and personal attention.",value_transparency:"Transparency",value_professionalism:"Professionalism",value_innovation:"Innovation",value_commitment:"Commitment",value_client:"Client focus",
+        team_kicker:"People and collaborators",team_title:"A team supporting every stage.",role_silvia:"Managing director",role_alberto:"API · Working partner",role_marta:"Graphic designer · Partner",collaborators:"Collaborators",gestoria:"Business administration",legal_advice:"Legal counsel",credentials:"Network and credentials",
+        contact_kicker:"Get in touch",contact_title:"Tell us what you need.",contact_lead:"If you want to learn about opportunities, present an asset or discuss a project, our team can help you identify the next step.",whatsapp:"WhatsApp",
+        form_name:"Name",form_email:"Email",form_interest:"How can we help?",form_choose:"Choose an option",form_option_1:"I want to learn about investment opportunities",form_option_2:"I want to present an asset or debt",form_option_3:"I need development management",form_option_4:"I want to request a consultation or valuation",form_option_5:"Other enquiry",form_message:"Message",form_send:"Prepare enquiry by email",form_note:"The form opens your email application and sends your enquiry to Silvia and Alberto. Please do not include sensitive financial documents.",legal_note:"Prototype: legal notice, privacy and cookie information must be completed before publication."
+      }
+    };
+    translations.es.nav_npl = "NPL";
+    translations.es.hero_primary = "Consultar oportunidades NPL";
+    translations.es.hero_secondary = "Cómo gestionamos NPL";
+    translations.es.hero_kicker = "Gestión de NPL · Inversión inmobiliaria";
+    translations.es.hero_title = "Gestión de NPL e inversión inmobiliaria, <span>de principio a fin.</span>";
+    translations.es.hero_lead = "La gestión de NPL es hoy la actividad principal de AUREM. Acompañamos cada operación con un enfoque integral y personalizado, junto a inversores privados.";
+    translations.es.hero_meta_1 = "Actividad principal actual: NPL";
+    translations.es.npl_kicker = "Actividad principal actual";
+    translations.es.npl_title = "Gestión de NPL, con acompañamiento integral.";
+    translations.es.npl_lead = "AUREM compra y gestiona NPL, coordinando las fases de análisis, subasta y cesión a inversores. Trabajamos con apoyo de profesionales jurídicos y equipos de gestión especializados.";
+    translations.es.npl_step_1_title = "Compra y análisis";
+    translations.es.npl_step_1_text = "Estudiamos la operación y el activo asociado para definir el enfoque de gestión.";
+    translations.es.npl_step_2_title = "Gestión de subasta";
+    translations.es.npl_step_2_text = "Coordinamos la fase de subasta junto con abogados y equipos gestores especializados.";
+    translations.es.npl_step_3_title = "Cesión a inversores";
+    translations.es.npl_step_3_text = "Acompañamos la cesión de la operación y los trámites que solicite el fondo para cada inversor.";
+    translations.es.npl_proof_1 = "3 compras de NPL";
+    translations.es.npl_proof_1_text = "Operaciones reflejadas en la experiencia de AUREM";
+    translations.es.npl_proof_2 = "2 posiciones acreedoras";
+    translations.es.npl_proof_2_text = "NPL indicados en la cartera actual";
+    translations.es.npl_proof_3 = "De principio a fin";
+    translations.es.npl_proof_3_text = "Compra, subasta y cesión a inversores";
+    translations.es.npl_cta = "Consultar sobre gestión NPL";
+    translations.es.service_1_title = "Gestión de NPL";
+    translations.es.service_1_text = "Compra y gestión de NPL, REO y WIP; coordinación de subastas y acompañamiento en la cesión a inversores.";
+    translations.es.service_2_title = "Inversión CRA y CRV";
+    translations.es.service_2_text = "Estrategias de compra, reforma y venta o alquiler, con gestión personalizada en cada fase.";
+    translations.es.cred_alberto = "Formación en subastas judiciales · Business School INEAF, respaldada por la Universidad Nebrija.";
+    translations.ca.nav_npl = "NPL";
+    translations.ca.hero_primary = "Consultar oportunitats NPL";
+    translations.ca.hero_secondary = "Com gestionem NPL";
+    translations.ca.hero_kicker = "Gestió de NPL · Inversió immobiliària";
+    translations.ca.hero_title = "Gestió de NPL i inversió immobiliària, <span>de principi a fi.</span>";
+    translations.ca.hero_lead = "La gestió de NPL és avui l'activitat principal d'AUREM. Acompanyem cada operació amb un enfocament integral i personalitzat, al costat d'inversors privats.";
+    translations.ca.hero_meta_1 = "Activitat principal actual: NPL";
+    translations.ca.npl_kicker = "Activitat principal actual";
+    translations.ca.npl_title = "Gestió de NPL, amb acompanyament integral.";
+    translations.ca.npl_lead = "AUREM compra i gestiona NPL i coordina les fases d'anàlisi, subhasta i cessió a inversors. Treballem amb el suport de professionals jurídics i equips de gestió especialitzats.";
+    translations.ca.npl_step_1_title = "Compra i anàlisi";
+    translations.ca.npl_step_1_text = "Estudiem l'operació i l'actiu associat per definir-ne l'enfocament de gestió.";
+    translations.ca.npl_step_2_title = "Gestió de subhasta";
+    translations.ca.npl_step_2_text = "Coordinem la fase de subhasta amb advocats i equips gestors especialitzats.";
+    translations.ca.npl_step_3_title = "Cessió a inversors";
+    translations.ca.npl_step_3_text = "Acompanyem la cessió de l'operació i els tràmits que sol·liciti el fons per a cada inversor.";
+    translations.ca.npl_proof_1 = "3 compres de NPL";
+    translations.ca.npl_proof_1_text = "Operacions incloses en l'experiència d'AUREM";
+    translations.ca.npl_proof_2 = "2 posicions creditores";
+    translations.ca.npl_proof_2_text = "NPL indicats a la cartera actual";
+    translations.ca.npl_proof_3 = "De principi a fi";
+    translations.ca.npl_proof_3_text = "Compra, subhasta i cessió a inversors";
+    translations.ca.npl_cta = "Consulta sobre gestió NPL";
+    translations.ca.service_1_title = "Gestió de NPL";
+    translations.ca.service_1_text = "Compra i gestió de NPL, REO i WIP; coordinació de subhastes i acompanyament en la cessió a inversors.";
+    translations.ca.service_2_title = "Inversió CRA i CRV";
+    translations.ca.service_2_text = "Estratègies de compra, reforma i venda o lloguer, amb gestió personalitzada en cada fase.";
+    translations.ca.cred_alberto = "Formació en subhastes judicials · Business School INEAF, amb el suport de la Universitat Nebrija.";
+    translations.en.nav_npl = "NPL";
+    translations.en.hero_primary = "Enquire about NPL opportunities";
+    translations.en.hero_secondary = "How we manage NPLs";
+    translations.en.hero_kicker = "NPL management · Real estate investment";
+    translations.en.hero_title = "NPL management and real estate investment, <span>from start to finish.</span>";
+    translations.en.hero_lead = "NPL management is currently AUREM's main activity. We support each transaction with an end-to-end, personalised approach alongside private investors.";
+    translations.en.hero_meta_1 = "Current main activity: NPL";
+    translations.en.npl_kicker = "Current main activity";
+    translations.en.npl_title = "NPL management with end-to-end support.";
+    translations.en.npl_lead = "AUREM acquires and manages NPLs, coordinating analysis, auction management and assignments to investors. We work with specialised legal professionals and management teams.";
+    translations.en.npl_step_1_title = "Acquisition and analysis";
+    translations.en.npl_step_1_text = "We review the transaction and related asset to define the management approach.";
+    translations.en.npl_step_2_title = "Auction management";
+    translations.en.npl_step_2_text = "We coordinate the auction phase with lawyers and specialised management teams.";
+    translations.en.npl_step_3_title = "Assignment to investors";
+    translations.en.npl_step_3_text = "We support the assignment and the fund requirements for each investor.";
+    translations.en.npl_proof_1 = "3 NPL acquisitions";
+    translations.en.npl_proof_1_text = "Transactions included in AUREM's experience";
+    translations.en.npl_proof_2 = "2 creditor positions";
+    translations.en.npl_proof_2_text = "NPL positions noted in the current portfolio";
+    translations.en.npl_proof_3 = "End to end";
+    translations.en.npl_proof_3_text = "Acquisition, auction and assignment to investors";
+    translations.en.npl_cta = "Enquire about NPL management";
+    translations.en.service_1_title = "NPL management";
+    translations.en.service_1_text = "Acquisition and management of NPL, REO and WIP assets; auction coordination and support with assignments to investors.";
+    translations.en.service_2_title = "CRA and CRV investment";
+    translations.en.service_2_text = "Purchase, renovation and sale or rental strategies, managed personally at every stage.";
+    translations.en.cred_alberto = "Training in judicial auctions · Business School INEAF, backed by Universidad Nebrija.";
+    translations.es.form_phone = "Teléfono (opcional)";
+    translations.ca.form_phone = "Telèfon (opcional)";
+    translations.en.form_phone = "Phone (optional)";
+    translations.es.service_4_text = "Estudios de mercado, comercialización e intermediación de activos residenciales, industriales, hoteleros, suelo y activos High Ticket.";
+    translations.ca.service_4_text = "Estudis de mercat, comercialització i intermediació d'actius residencials, industrials, hotelers, sòl i actius High Ticket.";
+    translations.en.service_4_text = "Market studies, sales and brokerage for residential, industrial, hospitality, land and high-ticket assets.";
+    translations.es.pbc_note = "En las operaciones que lo requieren, orientamos sobre la documentación de PBC (Prevención del Blanqueo de Capitales) y KYC (Know Your Customer, identificación del cliente) que solicite el fondo para autorizar la participación del inversor.";
+    translations.ca.pbc_note = "En les operacions que ho requereixen, orientem sobre la documentació de PBC (Prevenció del Blanqueig de Capitals) i KYC (Know Your Customer, identificació del client) que sol·liciti el fons per autoritzar la participació de l'inversor.";
+    translations.en.pbc_note = "Where required, we guide investors on PBC (Prevention of Money Laundering) and KYC (Know Your Customer) documentation requested by the fund to authorise participation.";
+    translations.es.experience_note = "Experiencia adicional en venta de activos REO ocupados, posiciones acreedoras en 2 NPL, compra de 3 NPL y gestión de operaciones WIP.";
+    translations.ca.experience_note = "Experiència addicional en venda d'actius REO ocupats, posicions creditores en 2 NPL, compra de 3 NPL i gestió d'operacions WIP.";
+    translations.en.experience_note = "Additional experience in sales of occupied REO assets, creditor positions in 2 NPLs, acquisition of 3 NPLs and WIP transactions.";
+    function setLanguage(lang) {
+      const words = translations[lang] || translations.es;
+      document.documentElement.lang = lang;
+      document.querySelectorAll("[data-i18n]").forEach(function (node) {
+        const key = node.getAttribute("data-i18n");
+        if (words[key]) node.innerHTML = words[key];
+      });
+      document.querySelectorAll("[data-lang]").forEach(function (button) {
+        const active = button.getAttribute("data-lang") === lang;
+        button.classList.toggle("active", active);
+        button.setAttribute("aria-pressed", active ? "true" : "false");
+      });
+      try { localStorage.setItem("aurem-language", lang); } catch (e) {}
+    }
+    document.querySelectorAll("[data-lang]").forEach(function (button) {
+      button.addEventListener("click", function () { setLanguage(button.getAttribute("data-lang")); });
+    });
+    const menuButton = document.querySelector(".menu-toggle");
+    const siteNav = document.querySelector("#site-nav");
+    menuButton.addEventListener("click", function () {
+      const open = siteNav.classList.toggle("open");
+      menuButton.setAttribute("aria-expanded", open ? "true" : "false");
+    });
+    siteNav.querySelectorAll("a").forEach(function (link) {
+      link.addEventListener("click", function () {
+        siteNav.classList.remove("open");
+        menuButton.setAttribute("aria-expanded", "false");
+      });
+    });
+    const revealTargets = document.querySelectorAll(".section-head, .intro-band-inner, .npl-step, .npl-proof > div, .strategy-card, .service-card, .process-step, .case-card, .project-card, .about-panel, .team-card, .network-block, .person-contact, .contact-form");
+    revealTargets.forEach(function (element, index) {
+      element.classList.add("reveal");
+      element.style.setProperty("--reveal-delay", (index % 3) * 85 + "ms");
+    });
+    if ("IntersectionObserver" in window) {
+      const revealObserver = new IntersectionObserver(function (entries, observer) {
+        entries.forEach(function (entry) {
+          if (entry.isIntersecting) {
+            entry.target.classList.add("is-visible");
+            observer.unobserve(entry.target);
+          }
+        });
+      }, { threshold: .12, rootMargin: "0px 0px -5% 0px" });
+      revealTargets.forEach(function (element) { revealObserver.observe(element); });
+    } else {
+      revealTargets.forEach(function (element) { element.classList.add("is-visible"); });
+    }
+    const topbar = document.querySelector(".topbar");
+    function updateScrollDetails() {
+      const scrollable = document.documentElement.scrollHeight - window.innerHeight;
+      const progress = scrollable > 0 ? window.scrollY / scrollable : 0;
+      document.documentElement.style.setProperty("--scroll-progress", String(progress));
+      topbar.classList.toggle("is-scrolled", window.scrollY > 12);
+    }
+    window.addEventListener("scroll", updateScrollDetails, { passive: true });
+    updateScrollDetails();
+    document.querySelector("#contact-form").addEventListener("submit", function (event) {
+      event.preventDefault();
+      const form = new FormData(event.currentTarget);
+      const subject = form.get("interest") + " — Consulta web AUREM";
+      const body = "Nombre: " + form.get("name") + "\nEmail: " + form.get("email") + "\nTeléfono: " + (form.get("phone") || "No indicado") + "\n\nMensaje:\n" + form.get("message");
+      const recipients = "alberto@inmoaurem.com,silvia@inmoaurem.com";
+      window.location.href = "mailto:" + recipients + "?subject=" + encodeURIComponent(subject) + "&body=" + encodeURIComponent(body);
+    });
+    document.querySelector("#year").textContent = new Date().getFullYear();
+    let savedLanguage = "es";
+    try { savedLanguage = localStorage.getItem("aurem-language") || "es"; } catch (e) {}
+    setLanguage(savedLanguage);
+  </script>
+</body>
+</html>
